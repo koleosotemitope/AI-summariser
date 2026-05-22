@@ -1,0 +1,20 @@
+[project]
+name = "llm"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "ollama>=0.6.2",
+    "transformers",
+    "langchain-huggingface",
+    "langchain",
+    "langchain-community",
+    "torch",
+    "pypdfium2",
+    "pillow",
+    "accelerate",
+    "torchvision",
+    "streamlit",
+]
+
