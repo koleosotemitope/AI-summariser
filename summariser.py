@@ -1,4 +1,5 @@
 import argparse
+import heapq
 import re
 from collections import Counter
 from pathlib import Path
@@ -75,7 +76,7 @@ def summarise_text(text: str, max_sentences: int = 3) -> str:
         sentence_scores.append((score, idx, sentence))
 
     selected = sorted(
-        sorted(sentence_scores, key=lambda item: item[0], reverse=True)[:max_sentences],
+        heapq.nlargest(max_sentences, sentence_scores, key=lambda item: item[0]),
         key=lambda item: item[1],
     )
     return " ".join(sentence for _, _, sentence in selected)
