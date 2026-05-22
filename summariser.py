@@ -31,6 +31,7 @@ STOPWORDS = {
     "will",
     "with",
 }
+WORD_PATTERN = re.compile(r"\b[a-zA-Z']+\b")
 
 
 def extract_text_from_image(image_path: str) -> str:
@@ -62,14 +63,14 @@ def summarise_text(text: str, max_sentences: int = 3) -> str:
     if not sentences:
         return cleaned
 
-    words = re.findall(r"\b[a-zA-Z']+\b", cleaned.lower())
+    words = WORD_PATTERN.findall(cleaned.lower())
     freq = Counter(word for word in words if word not in STOPWORDS)
     if not freq:
         return " ".join(sentences[:max_sentences])
 
     sentence_scores = []
     for idx, sentence in enumerate(sentences):
-        sentence_words = re.findall(r"\b[a-zA-Z']+\b", sentence.lower())
+        sentence_words = WORD_PATTERN.findall(sentence.lower())
         score = sum(freq[word] for word in sentence_words if word in freq)
         sentence_scores.append((score, idx, sentence))
 
