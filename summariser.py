@@ -35,14 +35,17 @@ STOPWORDS = {
 
 def extract_text_from_image(image_path: str) -> str:
     try:
-        from PIL import Image
+        from PIL import Image, UnidentifiedImageError
         import pytesseract
     except ImportError as exc:
         raise RuntimeError(
             "OCR dependencies are missing. Install requirements.txt first."
         ) from exc
 
-    image = Image.open(image_path)
+    try:
+        image = Image.open(image_path)
+    except (OSError, UnidentifiedImageError) as exc:
+        raise RuntimeError(f"Unable to open image file: {image_path}") from exc
     return pytesseract.image_to_string(image).strip()
 
 
